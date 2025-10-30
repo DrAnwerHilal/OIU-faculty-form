@@ -1,0 +1,503 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>إستمارة حصر أعضاء هيئة التدريس — جامعة أم درمان الإسلامية</title>
+
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Arabic font -->
+  <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@400;500;700;800&display=swap" rel="stylesheet">
+
+  <style>
+    html,body { height:100%; }
+    body {
+      font-family: 'Tajawal', sans-serif;
+      background: linear-gradient(180deg, #f6f9fc 0%, #eef4fb 100%);
+      -webkit-font-smoothing:antialiased;
+      -moz-osx-font-smoothing:grayscale;
+    }
+
+    /* Small utility classes using Tailwind @apply isn't available in runtime CSS,
+       so we keep class-based styling in markup. Below are minor custom rules. */
+    .card {
+      border-radius: 1rem;
+      box-shadow: 0 12px 30px rgba(15,23,42,0.06);
+      border: 1px solid rgba(99,102,241,0.06);
+      background: white;
+    }
+
+    /* style for the tiny helper text under inputs */
+    .hint {
+      font-size: 0.86rem;
+      color: #64748b; /* slate-500 */
+    }
+
+    /* disabled select dim */
+    select:disabled, input:disabled {
+      background-color: #f1f5f9;
+      cursor: not-allowed;
+      opacity: 0.9;
+    }
+  </style>
+</head>
+<body class="min-h-screen flex items-start justify-center py-12 px-4">
+
+  <div class="w-full max-w-5xl">
+    <div class="card p-6 sm:p-8 lg:p-10">
+
+      <!-- Header -->
+      <div class="text-center mb-8">
+        <h1 class="text-3xl sm:text-4xl font-extrabold text-slate-900">جامعة أم درمان الإسلامية</h1>
+        <h2 class="mt-2 text-xl sm:text-2xl font-semibold bg-clip-text text-transparent bg-gradient-to-r from-sky-600 to-indigo-600">
+          إستمارة حصر أعضاء هيئة التدريس
+        </h2>
+        <p class="mt-2 text-slate-500">يرجى تعبئة الحقول التالية بدقة — الحقول الموسومة بـ <span class="text-red-600">*</span> إجباريّة.</p>
+      </div>
+
+      <!-- Form -->
+      <form id="faculty-form" class="space-y-8" autocomplete="on" novalidate>
+
+        <!-- Personal Information -->
+        <section class="grid grid-cols-1 md:grid-cols-5 gap-4">
+          <div class="md:col-span-3">
+            <label for="fullName" class="block text-slate-700 font-medium mb-2">الاسم (رباعي) <span class="text-red-600">*</span></label>
+            <input id="fullName" name="fullName" type="text" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-sky-300" />
+          </div>
+
+          <div class="md:col-span-2">
+  <label for="nationalId" class="block text-slate-700 font-medium mb-2">
+    الرقم الوطني <span class="text-red-600">*</span>
+  </label>
+  <input 
+    id="nationalId" 
+    name="nationalId" 
+    placeholder="000-0000-0000" 
+    type="text" 
+    required
+    pattern="^\d{3}-\d{4}-\d{4}$"
+    title="الرجاء إدخال الرقم الوطني بالصيغة الصحيحة: 000-0000-0000"
+    class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-left focus:outline-none focus:ring-2 focus:ring-sky-300"
+    dir="ltr" 
+  />
+  <p class="hint mt-1">أدخل الرقم الوطني بالصيغة الصحيحة (مثال: 123-4567-8901).</p>
+</div>
+
+
+          <div class="md:col-span-1">
+            <label for="gender" class="block text-slate-700 font-medium mb-2">الجنس <span class="text-red-600">*</span></label>
+            <select id="gender" name="gender" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر --</option>
+              <option value="ذكر">ذكر</option>
+              <option value="أنثى">أنثى</option>
+            </select>
+          </div>
+
+          <!-- DOB group -->
+          <div class="md:col-span-2">
+            <label class="block text-slate-700 font-medium mb-2">تاريخ الميلاد <span class="text-red-600">*</span></label>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="dob-day" name="dob-day" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+              <select id="dob-month" name="dob-month" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+              <select id="dob-year" name="dob-year" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+            </div>
+            <input type="hidden" id="dob" name="dob">
+          </div>
+
+          <!-- Appointment Date -->
+          <div class="md:col-span-2">
+            <label class="block text-slate-700 font-medium mb-2">تاريخ التعيين <span class="text-red-600">*</span></label>
+            <div class="grid grid-cols-3 gap-2">
+              <select id="appointmentDate-day" name="appointmentDate-day" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+              <select id="appointmentDate-month" name="appointmentDate-month" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+              <select id="appointmentDate-year" name="appointmentDate-year" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+            </div>
+            <input type="hidden" id="appointmentDate" name="appointmentDate">
+          </div>
+
+          <div class="md:col-span-2">
+            <label for="email" class="block text-slate-700 font-medium mb-2">الإيميل الجامعي (اختياري)</label>
+            <input id="email" name="email" type="email" placeholder="xxxxxxx@oiu.edu.sd" pattern=".+@oiu\.edu\.sd" class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-left" dir="ltr" />
+            <p class="hint mt-1">إن أردت التأكد من إيميل الجامعة استخدم النطاق <code>@oiu.edu.sd</code></p>
+          </div>
+
+          <div class="md:col-span-3">
+            <label for="personalEmail" class="block text-slate-700 font-medium mb-2">الإيميل الشخصي <span class="text-red-600">*</span></label>
+            <input id="personalEmail" name="personalEmail" type="email" placeholder="example@domain.com" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-left" dir="ltr" />
+          </div>
+
+          <div class="md:col-span-5">
+            <label for="phone" class="block text-slate-700 font-medium mb-2">رقم الهاتف (يدعم واتسآب) <span class="text-red-600">*</span></label>
+            <input id="phone" name="phone" type="tel" placeholder="00249XXXXXXXXX" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3 text-left" dir="ltr" />
+          </div>
+        </section>
+
+        <hr class="border-t border-slate-200 my-4">
+
+        <!-- Academic & Job Information -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="generalSpec" class="block text-slate-700 font-medium mb-2">التخصص العام <span class="text-red-600">*</span></label>
+            <input id="generalSpec" name="generalSpec" type="text" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3" />
+          </div>
+          <div>
+            <label for="specificSpec" class="block text-slate-700 font-medium mb-2">التخصص الدقيق <span class="text-red-600">*</span></label>
+            <input id="specificSpec" name="specificSpec" type="text" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3" />
+          </div>
+
+          <div>
+            <label for="jobTitle" class="block text-slate-700 font-medium mb-2">الدرجة الوظيفية <span class="text-red-600">*</span></label>
+            <select id="jobTitle" name="jobTitle" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر --</option>
+              <option value="أستاذ">أستاذ</option>
+              <option value="أستاذ مشارك">أستاذ مشارك</option>
+              <option value="أستاذ مساعد">أستاذ مساعد</option>
+              <option value="محاضر">محاضر</option>
+              <option value="مساعد تدريس">مساعد تدريس</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="employmentStatus" class="block text-slate-700 font-medium mb-2">الوضع الوظيفي <span class="text-red-600">*</span></label>
+            <select id="employmentStatus" name="employmentStatus" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر --</option>
+              <option value="على رأس العمل">على رأس العمل</option>
+              <option value="إعارة">إعارة</option>
+              <option value="إجازة">إجازة</option>
+              <option value="إنتداب">إنتداب</option>
+              <option value="إستبقاء">إستبقاء</option>
+              <option value="أستاذ كرسي">أستاذ كرسي</option>
+              <option value="منحة داخلية">منحة داخلية</option>
+              <option value="منحة خارجية">منحة خارجية</option>
+            </select>
+          </div>
+
+          <!-- Conditional status dates (hidden by default) -->
+          <div id="status-date-fields" class="hidden md:col-span-2 grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div>
+              <label class="block text-slate-700 font-medium mb-2">تاريخ البداية</label>
+              <div class="grid grid-cols-3 gap-2">
+                <select id="statusStartDate-day" name="statusStartDate-day" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+                <select id="statusStartDate-month" name="statusStartDate-month" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+                <select id="statusStartDate-year" name="statusStartDate-year" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+              </div>
+              <input type="hidden" id="statusStartDate" name="statusStartDate" />
+            </div>
+
+            <div>
+              <label class="block text-slate-700 font-medium mb-2">تاريخ النهاية</label>
+              <div class="grid grid-cols-3 gap-2">
+                <select id="statusEndDate-day" name="statusEndDate-day" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+                <select id="statusEndDate-month" name="statusEndDate-month" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+                <select id="statusEndDate-year" name="statusEndDate-year" class="rounded-xl border border-slate-300 bg-slate-50 px-3 py-2"></select>
+              </div>
+              <input type="hidden" id="statusEndDate" name="statusEndDate" />
+            </div>
+          </div>
+
+          <div>
+            <label for="location" class="block text-slate-700 font-medium mb-2">مكان الإقامة الحالي <span class="text-red-600">*</span></label>
+            <select id="location" name="location" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر --</option>
+              <option value="داخل السودان">داخل السودان</option>
+              <option value="خارج السودان">خارج السودان</option>
+            </select>
+          </div>
+
+          <div>
+            <label for="elearning" class="block text-slate-700 font-medium mb-2">إجادة نظام التعلم الإلكتروني <span class="text-red-600">*</span></label>
+            <select id="elearning" name="elearning" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر --</option>
+              <option value="أحتاج تدريب">أحتاج تدريب</option>
+              <option value="مبتدئ">مبتدئ</option>
+              <option value="جيد">جيد</option>
+            </select>
+          </div>
+        </section>
+
+        <hr class="border-t border-slate-200 my-4">
+
+        <!-- College & Department -->
+        <section class="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <div>
+            <label for="college" class="block text-slate-700 font-medium mb-2">الكلية <span class="text-red-600">*</span></label>
+            <select id="college" name="college" required class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر الكلية أولاً --</option>
+            </select>
+          </div>
+          <div>
+            <label for="department" class="block text-slate-700 font-medium mb-2">القسم <span class="text-red-600">*</span></label>
+            <select id="department" name="department" required disabled class="w-full rounded-xl border border-slate-300 bg-slate-50 px-4 py-3">
+              <option value="" disabled selected>-- اختر القسم --</option>
+            </select>
+          </div>
+        </section>
+
+        <!-- Submit -->
+        <div>
+          <button id="submit-button" type="submit" class="w-full rounded-xl py-3 text-lg font-bold bg-gradient-to-r from-sky-500 to-indigo-600 text-white shadow-md hover:scale-[1.02] transition-transform flex justify-center items-center gap-3">
+            <span id="button-text">تسجيل البيانات</span>
+            <svg id="loading-spinner" class="animate-spin h-5 w-5 hidden" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+              <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+              <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"></path>
+            </svg>
+          </button>
+
+          <div id="status-message" class="mt-4 text-center text-base font-medium p-3 rounded-lg hidden"></div>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- JS: logic and data -->
+  <script>
+    // ضع هنا رابط Google Apps Script Web App (كما أرسلته)
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzubDZ2cly0tnAbhAqMOf04jOl4dD_0xTbrOeg6NaE8I8lUtmdNeXOVQ4t13dKHomiY/exec';
+
+    // ====== College -> Department data (full list from original) ======
+    const collegeData = {
+      "كلية الشريعة والقانون": ["قسم الشريعة والقانون"],
+      "كلية الدعوة": ["قسم الدعوة والثقافة الاسلامية", "قسم الحسبة والرقابة الشرعيه", "قسم مقارنة الاديان والدراسات الاستراتيجية", "قسم الدراسات الافريقية والاسيوية"],
+      "كلية العلوم الادارية": ["قسم ادارة الاعمال", "قسم المحاسبة", "قسم التسويق", "القسم العام", "قسم العلوم الاداريه"],
+      "كلية اصول الدين": ["قسم اصول الدين", "قسم الدراسات الاسلامية", "قسم القراءات"],
+      "كلية الاعلام": ["قسم الصحافة والنشر", "قسم الاذاعة والتلفزيون", "قسم العلاقات العامه والإعلان", "قسم الإعلام"],
+      "كلية الدراسات التقنية والتنموية": ["دبلوم هندسة الميكانيكا انتاج", "دبلوم تقنية المعلومات", "دبلوم الاعلام", "دبلوم هندسة الحاسوب", "دبلوم هندسة المعمار", "دبلوم هندسة المكانيكا سيارات", "دبلوم هندسة التبريد والتكييف", "دبلوم نظم معلومات تجارة الكترونية", "دبلوم الإحصاء", "دبلوم الهندسة المدنية", "دبلوم علوم الحاسوب", "دبلوم هندسة التعدين", "دبلوم هندسة إلكترونيات", "دبلوم المكتبات", "دبلوم شبكات", "دبلوم المحاسبة", "دبلوم نظم المعلومات", "دبلوم هندسة الكهرباء العامة", "دبلوم تأهيل الائمة والدعاة", "دبلوم الشريعة والقانون", "دبلوم رياض الاطفال", "دبلوم الاقتصاد", "دبلوم الادارة", "دبلوم الخدمة الاجتماعية", "دبلوم التمريض", "دبلوم الدراسات الإسلامية"],
+      "كلية الاداب": ["قسم علم النفس", "قسم المكتبات والمعلومات", "قسم علم الإجتماع", "قسم الجغرافيا", "قسم التاريخ والحضاره الاسلاميه", "قسم اللغة الانجليزية", "قسم الخدمة الإجتماعية", "قسم اللغة الفرنسية", "قسم اداب"],
+      "كلية اللغة العربية": ["قسم اللغة العربية للناطقين بغيرها", "قسم اللغة العربية"],
+      "كلية الإقتصاد والعلوم السياسية": ["قسم العلوم السياسية", "قسم الإحصاء", "قسم الإقتصاد", "قسم العلاقات الدولية", "قسم العلوم السياسية والعلاقات الدولية"],
+      "كلية التربية": ["قسم التربية كيمياء + أحياء", "القسم العلمي", "قسم التربية جغرافيا + تاريخ", "قسم التربية تاريخ", "قسم التربية أحياء + كيمياء", "قسم التربية فيزياء", "قسم التربية دراسات إسلامية", "قسم التربية جغرافيا", "قسم التربية لغة إنجليزية وآدابها", "قسم التربية رياضات", "قسم التربية فيزياء + رياضيات", "قسم التربية لغة عربية وآدابها", "قسم التربية أحياء", "قسم التربية رياضيات + فيزياء", "القسم الادبي", "قسم التربية تاريخ + جغرافيا", "قسم التربية كيمياء", "قسم التربية علوم أسرية", "قسم التربية رياض الأطفال والتربية الخاصة"],
+      "كلية الزراعة": ["قسم الإقتصاد الزراعي والتنمية الريفية", "قسم الأسماك والأحياء المائية", "قسم وقاية النبات", "قسم هندسة زراعية", "قسم الإنتاج الحيواني", "قسم إنتاج دواجن", "قسم البساتين", "قسم المحاصيل الحقلية", "قسم تخطيط وتنسيق الحدائق", "قسم الزراعة", "قسم زراعة الأراضي الجافة والصحراوية", "قسم علوم وتقانة الأغذية"],
+      "كلية الصيدلة": ["قسم الصيدلة"],
+      "كلية الطب": ["قسم الطب"],
+      "كلية العلوم والتقانة": ["قسم الفيزياء", "قسم الجيولوجيا", "قسم الكيمياء", "قسم النبات", "قسم الرياضيات", "قسم تقانة أحيائية", "قسم الاحياء", "قسم التغذية", "قسم الفلك والأرصاد الجوي", "قسم الحيوان", "قسم الرياضيات - عام", "قسم الأحياء - عام"],
+      "كلية المختبرات الطبية": ["قسم أمراض الدم", "قسم الأحياء الدقيقة", "قسم المختبرات", "قسم الطفيليات المريضة", "قسم الأنسجة المريضة", "قسم الكيمياء السريرية"],
+      "كلية العلوم الهندسية": ["قسم هندسة المساحة", "قسم الهندسة الكهربائية والالكترونية", "قسم هندسة التعدين", "قسم هندسة المعمار والتخطيط", "قسم الهندسة الميكانيكية", "قسم الهندسة المدنية"],
+      "كلية التمريض": ["قسم علوم التمريض"],
+      "كلية علوم الحاسوب وتقانة المعلومات": ["قسم علوم الحاسوب", "قسم تقنية معلومات", "قسم نظم المعلومات"],
+      "كلية العمارة والتخطيط": ["قسم العمارة والتخطيط", "قسم العمار وعمارة البيئة", "قسم العمارة والعمارة الداخلية"],
+      "فرع المعيلق": ["قسم علوم التمريض - فرع المعليق", "قسم المحاسبة - فرع المعليق", "قسم الاقتصاد - فرع المعليق"],
+      "فرع مروي": ["قسم إدارة الأعمال", "قسم المحاسبة", "قسم الدراسات الإسلامية", "قسم الإقتصاد", "قسم الشريعة والقانون", "دبلوم تقنية معلومات", "دبلوم المحاسبة"],
+      "فرع كردفان": ["قسم الشريعة والقانون", "قسم الدراسات الإسلامية", "قسم إدارة الأعمال", "قسم الإذاعة والتلفزيون", "قسم العلاقات العامة", "قسم علم النفس", "دبلوم محاسبة", "دبلوم إعلام", "دبلوم رياض أطفال"],
+      "كلية طب الأسنان": ["قسم طب الأسنان"]
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      // Elements
+      const form = document.getElementById('faculty-form');
+      const collegeSelect = document.getElementById('college');
+      const departmentSelect = document.getElementById('department');
+      const employmentStatusSelect = document.getElementById('employmentStatus');
+      const statusDateFields = document.getElementById('status-date-fields');
+      const submitButton = document.getElementById('submit-button');
+      const buttonText = document.getElementById('button-text');
+      const loadingSpinner = document.getElementById('loading-spinner');
+      const statusMessage = document.getElementById('status-message');
+
+      // --- date helpers (re-usable) ---
+      function populateSelect(selectEl, start, end, reverse=false, placeholder="") {
+        selectEl.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+        if (reverse) {
+          for (let i = end; i >= start; i--) selectEl.add(new Option(i, i));
+        } else {
+          for (let i = start; i <= end; i++) selectEl.add(new Option(i, i));
+        }
+      }
+      function populateMonths(selectEl, placeholder="الشهر") {
+        const months = ["يناير","فبراير","مارس","أبريل","مايو","يونيو","يوليو","أغسطس","سبتمبر","أكتوبر","نوفمبر","ديسمبر"];
+        selectEl.innerHTML = `<option value="" disabled selected>${placeholder}</option>`;
+        months.forEach((m,i) => {
+          const val = String(i+1).padStart(2,'0');
+          selectEl.add(new Option(m, val));
+        });
+      }
+
+      function updateHiddenDate(baseId) {
+        const daySelect = document.getElementById(`${baseId}-day`);
+        const monthSelect = document.getElementById(`${baseId}-month`);
+        const yearSelect = document.getElementById(`${baseId}-year`);
+        const hiddenInput = document.getElementById(baseId);
+
+        const day = daySelect.value;
+        const month = monthSelect.value;
+        const year = yearSelect.value;
+
+        if (day && month && year) {
+          const formattedDay = String(day).padStart(2,'0');
+          hiddenInput.value = `${year}-${month}-${formattedDay}`; // ISO
+        } else {
+          hiddenInput.value = '';
+        }
+
+        // Adjust day options based on selected month/year
+        if (!month || !year) return;
+        let maxDays = 31;
+        if (month === '02') {
+          const y = parseInt(year,10);
+          const isLeap = (y % 4 === 0 && y % 100 !== 0) || (y % 400 === 0);
+          maxDays = isLeap ? 29 : 28;
+        } else if (['04','06','09','11'].includes(month)) {
+          maxDays = 30;
+        }
+        populateSelect(daySelect, 1, maxDays, false, "اليوم");
+        // Try to keep previous day selection if still valid:
+        if (parseInt(day,10) <= maxDays) daySelect.value = day;
+      }
+
+      function setupDateDropdowns(baseId, startYear, endYear, required=true) {
+        const d = document.getElementById(`${baseId}-day`);
+        const m = document.getElementById(`${baseId}-month`);
+        const y = document.getElementById(`${baseId}-year`);
+
+        populateSelect(d, 1, 31, false, "اليوم");
+        populateMonths(m, "الشهر");
+        populateSelect(y, startYear, endYear, true, "السنة");
+
+        if (required) {
+          d.required = true; m.required = true; y.required = true;
+        } else {
+          d.required = false; m.required = false; y.required = false;
+        }
+
+        [d,m,y].forEach(el => {
+          el.addEventListener('change', () => updateHiddenDate(baseId));
+        });
+      }
+
+      // Initialize date groups (years range configurable)
+      const currentYear = new Date().getFullYear();
+      setupDateDropdowns('dob', 1940, currentYear, true);
+      setupDateDropdowns('appointmentDate', 1940, currentYear, true);
+      setupDateDropdowns('statusStartDate', 1940, currentYear, false);
+      setupDateDropdowns('statusEndDate', 1940, currentYear, false);
+
+      // Populate colleges
+      const sortedColleges = Object.keys(collegeData).sort((a,b) => a.localeCompare(b, 'ar'));
+      sortedColleges.forEach(col => collegeSelect.add(new Option(col, col)));
+
+      // College -> Department dynamic behavior
+      collegeSelect.addEventListener('change', () => {
+        const selected = collegeSelect.value;
+        departmentSelect.innerHTML = '<option value="" disabled selected>-- اختر القسم --</option>';
+        if (selected && collegeData[selected]) {
+          departmentSelect.disabled = false;
+          const depts = collegeData[selected].slice().sort((a,b) => a.localeCompare(b,'ar'));
+          depts.forEach(d => departmentSelect.add(new Option(d, d)));
+        } else {
+          departmentSelect.disabled = true;
+        }
+      });
+
+      // Employment status conditional fields
+      employmentStatusSelect.addEventListener('change', () => {
+        const val = employmentStatusSelect.value;
+        const dateDropdownIds = ['statusStartDate-day','statusStartDate-month','statusStartDate-year','statusEndDate-day','statusEndDate-month','statusEndDate-year'];
+        if (val === 'إعارة' || val === 'إجازة' || val === 'إنتداب') {
+          statusDateFields.classList.remove('hidden');
+          // make fields required
+          dateDropdownIds.forEach(id => document.getElementById(id).required = true);
+        } else {
+          statusDateFields.classList.add('hidden');
+          dateDropdownIds.forEach(id => {
+            const el = document.getElementById(id);
+            el.required = false;
+            if (el.tagName.toLowerCase() === 'select') el.value = '';
+          });
+          // clear hidden inputs
+          document.getElementById('statusStartDate').value = '';
+          document.getElementById('statusEndDate').value = '';
+        }
+      });
+
+      // Form submit handler
+      form.addEventListener('submit', async (e) => {
+        e.preventDefault();
+
+        // Basic client-side validity check
+        if (!form.checkValidity()) {
+          form.reportValidity();
+          return;
+        }
+
+        if (!SCRIPT_URL || !SCRIPT_URL.includes('script.google.com')) {
+          showStatusMessage('خطأ: رابط Google Apps Script غير صالح. تأكد من لصق الرابط الصحيح.', true);
+          return;
+        }
+
+        setLoading(true);
+
+        try {
+          const formData = new FormData(form);
+          // Ensure hidden date fields have values (they are updated on selects change)
+          // Convert FormData to object
+          const payload = Object.fromEntries(formData.entries());
+
+          // POST to Google Apps Script Web App
+          await fetch(SCRIPT_URL, {
+            method: 'POST',
+            mode: 'no-cors', // for Apps Script simple deploys
+            cache: 'no-cache',
+            headers: {
+              'Content-Type': 'text/plain;charset=utf-8'
+            },
+            body: JSON.stringify(payload)
+          });
+
+          showStatusMessage('تم تسجيل البيانات بنجاح!', false);
+          form.reset();
+
+          // Clear hidden date inputs manually
+          ['dob','appointmentDate','statusStartDate','statusEndDate'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.value = '';
+          });
+
+          // Reset departments
+          departmentSelect.innerHTML = '<option value="" disabled selected>-- اختر القسم --</option>';
+          departmentSelect.disabled = true;
+
+          // Hide conditional date section if visible
+          if (!statusDateFields.classList.contains('hidden')) {
+            statusDateFields.classList.add('hidden');
+            ['statusStartDate-day','statusStartDate-month','statusStartDate-year','statusEndDate-day','statusEndDate-month','statusEndDate-year'].forEach(id => {
+              const el = document.getElementById(id);
+              if (el) el.required = false;
+            });
+          }
+
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+
+        } catch (err) {
+          console.error(err);
+          showStatusMessage('حدث خطأ أثناء إرسال البيانات. حاول مجددًا أو تأكد من الاتصال.', true);
+        } finally {
+          setLoading(false);
+        }
+      });
+
+      // UI helpers
+      function setLoading(isLoading) {
+        submitButton.disabled = isLoading;
+        buttonText.classList.toggle('hidden', isLoading);
+        loadingSpinner.classList.toggle('hidden', !isLoading);
+      }
+
+      function showStatusMessage(message, isError=false) {
+        statusMessage.textContent = message;
+        statusMessage.className = 'mt-4 text-center text-base font-medium p-3 rounded-lg';
+        if (isError) {
+          statusMessage.classList.add('bg-red-50','text-red-700','border','border-red-100');
+        } else {
+          statusMessage.classList.add('bg-green-50','text-green-700','border','border-green-100');
+        }
+        statusMessage.classList.remove('hidden');
+        setTimeout(() => {
+          statusMessage.classList.add('hidden');
+        }, 6000);
+      }
+
+    }); // DOMContentLoaded
+  </script>
+</body>
+</html>
